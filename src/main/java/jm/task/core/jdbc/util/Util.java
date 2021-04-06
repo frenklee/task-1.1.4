@@ -10,6 +10,15 @@ public class Util {
     private static final String URL = "jdbc:mysql://localhost:3306/db?useSSL=false";
     private static final String name = "root1";
     private static final String password = "";
+    private static Util instance;
+    private Util(){}
+
+    public static Util getInstance(){
+        if(instance == null){
+            instance = new Util();
+        }
+        return instance;
+    }
 
     public Connection getConnection(){
         Connection connection = null;
