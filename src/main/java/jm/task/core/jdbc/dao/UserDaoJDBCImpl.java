@@ -23,7 +23,7 @@ public class UserDaoJDBCImpl implements UserDao {
 
     public void createUsersTable() {
         PreparedStatement preparedStatement = null;
-        String sql = "CREATE TABLE db.tabl (\n" +
+        String sql = "IF OBJECT_ID('db.tabl', 'U') IS NULL CREATE TABLE db.tabl (\n" +
                 "  `id` INT NOT NULL AUTO_INCREMENT,\n" +
                 "  `name` VARCHAR(45) NULL,\n" +
                 "  `lastName` VARCHAR(45) NULL,\n" +
@@ -55,7 +55,8 @@ public class UserDaoJDBCImpl implements UserDao {
 
     public void dropUsersTable() {
         PreparedStatement preparedStatement = null;
-        String sql = "DROP TABLE db.tabl;";
+        String sql = "IF OBJECT_ID('db.tabl', 'U') IS NOT NULL " +
+                "DROP TABLE db.tabl;";
         try{
             preparedStatement = connection.prepareStatement(sql);
             preparedStatement.executeUpdate();
@@ -185,13 +186,21 @@ public class UserDaoJDBCImpl implements UserDao {
 
     public void cleanUsersTable() {
         Statement statement = null;
-        String sql = "DELETE FROM tabl";
+        ResultSet resultSet = null;
+        String sql = "TRUNCATE FROM tabl";
         try{
             statement = connection.prepareStatement(sql);
-            ResultSet resultSet = statement.executeQuery(sql);
+            resultSet = statement.executeQuery(sql);
         } catch (SQLException e){
             e.printStackTrace();
         } finally {
+            if(resultSet != null){
+                try {
+                    resultSet.close();
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
+                }
+            }
             if(statement != null){
                 try {
                     statement.close();
