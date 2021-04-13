@@ -36,14 +36,18 @@ public class UserDaoJDBCImpl implements UserDao {
         } catch (SQLException e){
             e.printStackTrace();
         } finally {
-            if(preparedStatement != null && connection != null){
+
                 try {
-                    preparedStatement.close();
-                    connection.close();
+                    if(preparedStatement != null) {
+                        preparedStatement.close();
+                    }
+                    if(connection != null) {
+                        connection.close();
+                    }
                 } catch (SQLException throwables) {
                     throwables.printStackTrace();
                 }
-            }
+
         }
     }
 
@@ -57,14 +61,18 @@ public class UserDaoJDBCImpl implements UserDao {
         } catch (SQLException e){
             e.printStackTrace();
         } finally {
-            if(preparedStatement != null && connection != null){
+
                 try {
-                    preparedStatement.close();
-                    connection.close();
+                    if(preparedStatement != null) {
+                        preparedStatement.close();
+                    }
+                    if(connection != null) {
+                        connection.close();
+                    }
                 } catch (SQLException throwables) {
                     throwables.printStackTrace();
                 }
-            }
+
         }
     }
 
@@ -80,14 +88,18 @@ public class UserDaoJDBCImpl implements UserDao {
         } catch (SQLException e){
             e.printStackTrace();
         } finally {
-            if(preparedStatement != null && connection != null){
+
                 try {
-                    preparedStatement.close();
-                    connection.close();
+                    if(preparedStatement != null) {
+                        preparedStatement.close();
+                    }
+                    if(connection != null) {
+                        connection.close();
+                    }
                 } catch (SQLException throwables) {
                     throwables.printStackTrace();
                 }
-            }
+
         }
     }
 
@@ -101,14 +113,18 @@ public class UserDaoJDBCImpl implements UserDao {
         } catch (SQLException e){
             e.printStackTrace();
         } finally {
-            if(preparedStatement != null && connection != null){
+
                 try {
-                    preparedStatement.close();
-                    connection.close();
+                    if(preparedStatement != null) {
+                        preparedStatement.close();
+                    }
+                    if(connection != null) {
+                        connection.close();
+                    }
                 } catch (SQLException throwables) {
                     throwables.printStackTrace();
                 }
-            }
+
         }
     }
 
@@ -135,15 +151,21 @@ public class UserDaoJDBCImpl implements UserDao {
         } catch (SQLException e){
             e.printStackTrace();
         } finally {
-            if(resultSet != null && statement != null && connection != null){
+
                 try {
-                    resultSet.close();
-                    statement.close();
-                    connection.close();
+                    if(resultSet != null) {
+                        resultSet.close();
+                    }
+                    if(statement != null) {
+                        statement.close();
+                    }
+                    if(connection!=null) {
+                        connection.close();
+                    }
                 } catch (SQLException throwables) {
                     throwables.printStackTrace();
                 }
-            }
+
         }
         return null;
     }
@@ -158,15 +180,20 @@ public class UserDaoJDBCImpl implements UserDao {
         } catch (SQLException e){
             e.printStackTrace();
         } finally {
-            if(resultSet != null && statement != null && connection != null){
                 try {
-                    resultSet.close();
-                    statement.close();
-                    connection.close();
+                    if(resultSet != null) {
+                        resultSet.close();
+                    }
+                    if(statement != null) {
+                        statement.close();
+                    }
+                    if(connection != null) {
+                        connection.close();
+                    }
                 } catch (SQLException throwables) {
                     throwables.printStackTrace();
                 }
-            }
+
         }
     }
 }

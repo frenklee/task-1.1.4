@@ -6,9 +6,9 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class Util {
-    private static final String dbDriver = "com.mysql.jdbc.Driver";
-    private static final String URL = "jdbc:mysql://localhost:3306/db?useSSL=false";
-    private static final String name = "root1";
+    private static final String dbDriver = "com.mysql.cj.jdbc.Driver";
+    private static final String URL = "jdbc:mysql://localhost:3306/db?allowPublicKeyRetrieval=true&useSSL=false";
+    private static final String name = "root";
     private static final String password = "";
     private static Util instance;
     private Util(){}
