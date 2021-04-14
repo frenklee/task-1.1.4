@@ -24,7 +24,7 @@ public class UserDaoJDBCImpl implements UserDao {
     public void createUsersTable() {
         Connection connection = Util.getInstance().getConnection();
         PreparedStatement preparedStatement = null;
-        String sql = "CREATE TABLE `db`.`tabl` (\n" +
+        String sql = "CREATE TABLE IF NOT EXISTS `db`.`tabl` (\n" +
                 "  `id` INT NOT NULL AUTO_INCREMENT,\n" +
                 "  `name` VARCHAR(45) NULL,\n" +
                 "  `lastName` VARCHAR(45) NULL,\n" +
@@ -54,8 +54,7 @@ public class UserDaoJDBCImpl implements UserDao {
     public void dropUsersTable() {
         Connection connection = Util.getInstance().getConnection();
         PreparedStatement preparedStatement = null;
-        String sql = "IF OBJECT_ID('db.tabl', 'U') IS NOT NULL " +
-                "DROP TABLE db.tabl;";
+        String sql = "DROP TABLE IF EXISTS db.tabl";
         try{
             preparedStatement = connection.prepareStatement(sql);
             preparedStatement.executeUpdate();
@@ -169,7 +168,6 @@ public class UserDaoJDBCImpl implements UserDao {
                 } catch (SQLException throwables) {
                     throwables.printStackTrace();
                 }
-
         }
         return userList;
     }
@@ -177,18 +175,16 @@ public class UserDaoJDBCImpl implements UserDao {
     public void cleanUsersTable() {
         Connection connection = Util.getInstance().getConnection();
         Statement statement = null;
-        ResultSet resultSet = null;
+
         String sql = "TRUNCATE FROM tabl";
         try{
             statement = connection.prepareStatement(sql);
-            resultSet = statement.executeQuery(sql);
+            statement.executeQuery(sql);
         } catch (SQLException e){
             e.printStackTrace();
         } finally {
                 try {
-                    if(resultSet != null) {
-                        resultSet.close();
-                    }
+
                     if(statement != null) {
                         statement.close();
                     }
