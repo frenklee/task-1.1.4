@@ -9,36 +9,42 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UserServiceImpl implements UserService {
-    Connection connection = Util.getInstance().getConnection();
+
     public void createUsersTable() {
         UserDaoJDBCImpl dao = UserDaoJDBCImpl.getInstance();
         dao.createUsersTable();
+
     }
 
     public void dropUsersTable() {
         UserDaoJDBCImpl dao = UserDaoJDBCImpl.getInstance();
         dao.dropUsersTable();
+
     }
 
     public void saveUser(String name, String lastName, byte age) {
         UserDaoJDBCImpl dao = UserDaoJDBCImpl.getInstance();
         dao.saveUser(name,lastName,age);
+
     }
 
     public void removeUserById(long id) {
         UserDaoJDBCImpl dao = UserDaoJDBCImpl.getInstance();
         dao.removeUserById(id);
+
     }
 
     public List<User> getAllUsers() {
         UserDaoJDBCImpl dao = UserDaoJDBCImpl.getInstance();
         dao.getAllUsers();
+
         return null;
     }
 
     public void cleanUsersTable() {
         UserDaoJDBCImpl dao = UserDaoJDBCImpl.getInstance();
         dao.cleanUsersTable();
+
     }
 
 }
