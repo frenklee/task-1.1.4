@@ -176,10 +176,10 @@ public class UserDaoJDBCImpl implements UserDao {
         Connection connection = Util.getInstance().getConnection();
         Statement statement = null;
 
-        String sql = "TRUNCATE FROM tabl";
+        String sql = "TRUNCATE TABLE tabl";
         try{
-            statement = connection.prepareStatement(sql);
-            statement.executeQuery(sql);
+            statement = connection.createStatement();
+            statement.executeUpdate(sql);
         } catch (SQLException e){
             e.printStackTrace();
         } finally {
