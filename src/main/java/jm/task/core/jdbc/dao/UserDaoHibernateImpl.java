@@ -10,10 +10,11 @@ import org.hibernate.cfg.Configuration;
 import org.hibernate.service.ServiceRegistry;
 
 import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.List;
 
 public class UserDaoHibernateImpl implements UserDao {
-
+    SessionFactory factory = null;
     private static UserDaoHibernateImpl instance;
     private UserDaoHibernateImpl() {
 
@@ -28,7 +29,7 @@ public class UserDaoHibernateImpl implements UserDao {
 
     @Override
     public void createUsersTable() {
-        SessionFactory factory = Util.getInstance().getSessionFactory();
+        factory = Util.getInstance().getSessionFactory();
         Session session = factory.getCurrentSession();
         try{
             session.beginTransaction();
@@ -39,6 +40,8 @@ public class UserDaoHibernateImpl implements UserDao {
                     "  `age` INT NULL,\n" +
                     "  PRIMARY KEY (`id`));").executeUpdate();
             session.getTransaction().commit();
+        } catch (Exception e){
+            e.printStackTrace();
         } finally {
             factory.close();
         }
@@ -47,12 +50,14 @@ public class UserDaoHibernateImpl implements UserDao {
 
     @Override
     public void dropUsersTable() {
-        SessionFactory factory = Util.getInstance().getSessionFactory();
+        factory = Util.getInstance().getSessionFactory();
         Session session = factory.getCurrentSession();
         try{
             session.beginTransaction();
             session.createQuery("DROP TABLE IF EXISTS tabl").executeUpdate();
             session.getTransaction().commit();
+        } catch (Exception e){
+            e.printStackTrace();
         } finally {
             factory.close();
         }
@@ -60,13 +65,15 @@ public class UserDaoHibernateImpl implements UserDao {
 
     @Override
     public void saveUser(String name, String lastName, byte age) {
-        SessionFactory factory = Util.getInstance().getSessionFactory();
+        factory = Util.getInstance().getSessionFactory();
         Session session = factory.getCurrentSession();
         try{
             User user = new User(name,lastName,age);
             session.beginTransaction();
             session.save(user);
             session.getTransaction().commit();
+        } catch (Exception e){
+            e.printStackTrace();
         } finally {
             factory.close();
         }
@@ -74,13 +81,15 @@ public class UserDaoHibernateImpl implements UserDao {
 
     @Override
     public void removeUserById(long id) {
-        SessionFactory factory = Util.getInstance().getSessionFactory();
+        factory = Util.getInstance().getSessionFactory();
         Session session = factory.getCurrentSession();
         try{
             session.beginTransaction();
             Object temp = session.load(User.class,id);
             session.delete(temp);
             session.getTransaction().commit();
+        } catch (Exception e){
+            e.printStackTrace();
         } finally {
             factory.close();
         }
@@ -88,7 +97,7 @@ public class UserDaoHibernateImpl implements UserDao {
 
     @Override
     public List<User> getAllUsers() {
-        SessionFactory factory = Util.getInstance().getSessionFactory();
+        factory = Util.getInstance().getSessionFactory();
         Session session = factory.getCurrentSession();
         List<User> users = null;
         try{
@@ -98,6 +107,8 @@ public class UserDaoHibernateImpl implements UserDao {
                 System.out.println(tempUser);
             }
             session.getTransaction().commit();
+        } catch (Exception e){
+            e.printStackTrace();
         } finally {
             factory.close();
         }
@@ -106,12 +117,14 @@ public class UserDaoHibernateImpl implements UserDao {
 
     @Override
     public void cleanUsersTable() {
-        SessionFactory factory = Util.getInstance().getSessionFactory();
+        factory = Util.getInstance().getSessionFactory();
         Session session = factory.getCurrentSession();
         try{
             session.beginTransaction();
             session.createQuery("TRUNCATE TABLE tabl").executeUpdate();
             session.getTransaction().commit();
+        } catch (Exception e){
+            e.printStackTrace();
         } finally {
             factory.close();
         }
