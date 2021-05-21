@@ -2,6 +2,7 @@ package jm.task.core.jdbc.dao;
 
 import jm.task.core.jdbc.model.User;
 import jm.task.core.jdbc.util.Util;
+import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -14,7 +15,8 @@ import java.sql.SQLException;
 import java.util.List;
 
 public class UserDaoHibernateImpl implements UserDao {
-    SessionFactory factory = Util.getInstance().getSessionFactory();
+    SessionFactory factory = Util.getSessionFactory();
+
     private static UserDaoHibernateImpl instance;
     private UserDaoHibernateImpl() {
 
@@ -29,10 +31,11 @@ public class UserDaoHibernateImpl implements UserDao {
 
     @Override
     public void createUsersTable() {
-        Session session = factory.getCurrentSession();
+
+        Session session = factory.openSession();
         try{
             session.beginTransaction();
-            session.createQuery("CREATE TABLE IF NOT EXISTS tabl (\n" +
+            session.createSQLQuery("CREATE TABLE IF NOT EXISTS tabl (\n" +
                     "  id INT NOT NULL AUTO_INCREMENT,\n" +
                     "  name VARCHAR(45) NULL,\n" +
                     "  lastName VARCHAR(45) NULL,\n" +
@@ -43,29 +46,42 @@ public class UserDaoHibernateImpl implements UserDao {
             session.getTransaction().rollback();
             e.printStackTrace();
         } finally {
-            factory.close();
+            try {
+                if (session != null) {
+                    session.close();
+                }
+            } catch(Exception e){
+                e.printStackTrace();
+            }
+
         }
 
     }
 
     @Override
     public void dropUsersTable() {
-        Session session = factory.getCurrentSession();
+        Session session = factory.openSession();
         try{
             session.beginTransaction();
-            session.createQuery("DROP TABLE IF EXISTS tabl").executeUpdate();
+            session.createSQLQuery("DROP TABLE IF EXISTS tabl").executeUpdate();
             session.getTransaction().commit();
         } catch (Exception e){
             session.getTransaction().rollback();
             e.printStackTrace();
         } finally {
-            factory.close();
+            try {
+                if (session != null) {
+                    session.close();
+                }
+            } catch(Exception e){
+                e.printStackTrace();
+            }
         }
     }
 
     @Override
     public void saveUser(String name, String lastName, byte age) {
-        Session session = factory.getCurrentSession();
+        Session session = factory.openSession();
         try{
             User user = new User(name,lastName,age);
             session.beginTransaction();
@@ -75,13 +91,19 @@ public class UserDaoHibernateImpl implements UserDao {
             session.getTransaction().rollback();
             e.printStackTrace();
         } finally {
-            factory.close();
+            try {
+                if (session != null) {
+                    session.close();
+                }
+            } catch(Exception e){
+                e.printStackTrace();
+            }
         }
     }
 
     @Override
     public void removeUserById(long id) {
-        Session session = factory.getCurrentSession();
+        Session session = factory.openSession();
         try{
             session.beginTransaction();
             Object temp = session.load(User.class,id);
@@ -91,17 +113,23 @@ public class UserDaoHibernateImpl implements UserDao {
             session.getTransaction().rollback();
             e.printStackTrace();
         } finally {
-            factory.close();
+            try {
+                if (session != null) {
+                    session.close();
+                }
+            } catch(Exception e){
+                e.printStackTrace();
+            }
         }
     }
 
     @Override
     public List<User> getAllUsers() {
-        Session session = factory.getCurrentSession();
+        Session session = factory.openSession();
         List<User> users = null;
         try{
             session.beginTransaction();
-            users = session.createQuery("from tabl").list();
+            users = session.createQuery("from User").list();
             for(User tempUser : users){
                 System.out.println(tempUser);
             }
@@ -110,23 +138,35 @@ public class UserDaoHibernateImpl implements UserDao {
             session.getTransaction().rollback();
             e.printStackTrace();
         } finally {
-            factory.close();
+            try {
+                if (session != null) {
+                    session.close();
+                }
+            } catch(Exception e){
+                e.printStackTrace();
+            }
         }
         return users;
     }
 
     @Override
     public void cleanUsersTable() {
-        Session session = factory.getCurrentSession();
+        Session session = factory.openSession();
         try{
             session.beginTransaction();
-            session.createQuery("TRUNCATE TABLE tabl").executeUpdate();
+            session.createSQLQuery("TRUNCATE TABLE tabl").executeUpdate();
             session.getTransaction().commit();
         } catch (Exception e){
             session.getTransaction().rollback();
             e.printStackTrace();
         } finally {
-            factory.close();
+            try {
+                if (session != null) {
+                    session.close();
+                }
+            } catch(Exception e){
+                e.printStackTrace();
+            }
         }
     }
 }

@@ -39,7 +39,7 @@ public class Util {
                 // Hibernate settings equivalent to hibernate.cfg.xml's properties
                 Properties settings = new Properties();
                 settings.put(Environment.DRIVER, "com.mysql.cj.jdbc.Driver");
-                settings.put(Environment.URL, "jdbc:mysql://localhost:3306/db?useSSL=false");
+                settings.put(Environment.URL, "jdbc:mysql://localhost:3306/db?allowPublicKeyRetrieval=true&useSSL=false");
                 settings.put(Environment.USER, "max");
                 settings.put(Environment.PASS, "max");
                 settings.put(Environment.DIALECT, "org.hibernate.dialect.MySQL5Dialect");
